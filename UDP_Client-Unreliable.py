@@ -4,7 +4,7 @@ file_name = 'input.txt'
 server_name = 'localhost'
 server_port = 54321
 
-d = 0.1
+initial_timeout = 0.1
 max_timeout = 2.0
 
 try:
@@ -16,11 +16,13 @@ try:
             print(f"InputRequest: {line}")
 
             client_socket = socket(AF_INET, SOCK_DGRAM)
-            client_socket.settimeout(d)
+            d = initial_timeout
 
             while True:
                 try:
                     client_socket.sendto(line.encode(), (server_name, server_port))
+                    client_socket.settimeout(d)
+                    print(f"Request sent, waiting for response with timeout {d} seconds")
 
                     response, _ = client_socket.recvfrom(1024)
                     status_code, result = response.decode().split(maxsplit=1)
