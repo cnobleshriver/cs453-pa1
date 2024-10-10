@@ -28,7 +28,7 @@ def handle_request(data):
     except ValueError:
         return "630 -1"
 
-server_port = 55555
+server_port = 54321
 server_socket = socket(AF_INET, SOCK_STREAM)
 server_socket.bind(('', server_port))
 server_socket.listen(1)
@@ -39,7 +39,7 @@ while True:
 
         data = client_socket.recv(1024).decode()
         response = handle_request(data)
-        client_socket.send(data.encode())
+        client_socket.send(response.encode())
         client_socket.close()
     except KeyboardInterrupt:
         server_socket.close()
